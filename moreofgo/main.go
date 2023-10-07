@@ -1,7 +1,7 @@
 package main
 
 import (
-	billing "examlpe/moreofgo/billing"
+	"examlpe/moreofgo/billing"
 )
 
 func main() {
