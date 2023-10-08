@@ -1,10 +1,5 @@
 go 1.21.1
 
 use (
-	./api
-	./fuzz
-	./generics
-	./gowiki
-	./moreofgo
-	./statements
+	./basics
 )
