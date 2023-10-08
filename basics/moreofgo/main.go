@@ -4,9 +4,10 @@ import (
 	"learning/basics/moreofgo/billing"
 )
 
-func main() {
+func RunExamples() {
 
 	billing.Pay()
-	arrays()
-	pointers()
+	// arrays()
+	// pointers()
+	maps()
 }

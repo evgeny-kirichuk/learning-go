@@ -1,21 +1,19 @@
 package main
 
 import (
-	"fmt"
-	"learning/basics/api"
-	"learning/basics/fuzz"
-	"learning/basics/generics"
+	"learning/basics/moreofgo"
 )
 
 func main() {
-	ints := map[string]int64{
-		"first":  34,
-		"second": 12,
-	}
-	reversed, err := fuzz.Reverse("Hello, world")
-	sum := generics.SumNumbers(ints)
-	fmt.Print(reversed, sum, err)
+	// ints := map[string]int64{
+	// 	"first":  34,
+	// 	"second": 12,
+	// }
+	// reversed, err := fuzz.Reverse("Hello, world")
+	// sum := generics.SumNumbers(ints)
+	// fmt.Print(reversed, sum, err)
 
-	api.StartSerevr()
+	// api.StartSerevr()
 	// gowiki.StartSerevr()
+	moreofgo.RunExamples()
 }
