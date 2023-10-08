@@ -1,7 +1,7 @@
-package main
+package moreofgo
 
 import (
-	"examlpe/moreofgo/billing"
+	"learning/basics/moreofgo/billing"
 )
 
 func main() {
