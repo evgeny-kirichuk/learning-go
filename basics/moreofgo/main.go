@@ -7,7 +7,7 @@ import (
 func RunExamples() {
 
 	billing.Pay()
-	// arrays()
-	// pointers()
+	arrays()
+	pointers()
 	maps()
 }
