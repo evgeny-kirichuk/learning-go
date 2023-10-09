@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning/basics/moreofgo"
+	interfaces "learning/basics/interfaces"
 )
 
 func main() {
@@ -15,5 +15,6 @@ func main() {
 
 	// api.StartSerevr()
 	// gowiki.StartSerevr()
-	moreofgo.RunExamples()
+	// moreofgo.RunExamples()
+	interfaces.RunInterfaces()
 }
