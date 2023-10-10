@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning/basics/generics"
+	"learning/basics/pointers"
 )
 
 func main() {
@@ -18,5 +18,5 @@ func main() {
 	// moreofgo.RunExamples()
 	// interfaces.RunInterfaces()
 	// types.BuildEntyty()
-	generics.RunGenericMaps()
+	pointers.RunPointers()
 }
