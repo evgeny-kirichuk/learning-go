@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning/basics/pointers"
+	"learning_go/basics/pointers"
 )
 
 func main() {

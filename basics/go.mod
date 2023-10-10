@@ -1,4 +1,4 @@
-module learning/basics
+module learning_go/basics
 
 go 1.21.1
 

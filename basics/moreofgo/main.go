@@ -1,7 +1,7 @@
 package moreofgo
 
 import (
-	"learning/basics/moreofgo/billing"
+	"learning_go/basics/moreofgo/billing"
 )
 
 func RunExamples() {
