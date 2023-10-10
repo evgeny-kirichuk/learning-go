@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning_go/basics/pointers"
+	"learning_go/basics/channels"
 )
 
 func main() {
@@ -18,5 +18,6 @@ func main() {
 	// moreofgo.RunExamples()
 	// interfaces.RunInterfaces()
 	// types.BuildEntyty()
-	pointers.RunPointers()
+	// pointers.RunPointers()
+	channels.RunChannels()
 }
