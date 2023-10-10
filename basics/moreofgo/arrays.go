@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func arrays () {
+func arrays() {
 	// arrays and slices
 	var a [2]string // array of 2 strings
 	a[0] = "Hello"

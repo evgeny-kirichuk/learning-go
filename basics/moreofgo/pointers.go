@@ -25,5 +25,5 @@ func pointers() {
 	q := &v1
 	q.X = 1e9
 	b := &Vertex{1, 2}
-	fmt.Println("vertex",v1, v2, q, b)
+	fmt.Println("vertex", v1, v2, q, b)
 }

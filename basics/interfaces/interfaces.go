@@ -16,7 +16,7 @@ type MongoDBNumberStore struct {
 }
 
 func (m MongoDBNumberStore) GetAll() ([]int, error) {
-	return []int{1,2,3}, nil
+	return []int{1, 2, 3}, nil
 }
 
 func (m MongoDBNumberStore) Put(number int) error {
@@ -24,7 +24,7 @@ func (m MongoDBNumberStore) Put(number int) error {
 }
 
 func (p PotgresNumberStore) GetAll() ([]int, error) {
-	return []int{1,2,3}, nil
+	return []int{1, 2, 3}, nil
 }
 
 func (p PotgresNumberStore) Put(number int) error {
