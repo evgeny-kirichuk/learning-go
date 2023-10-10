@@ -1,6 +1,9 @@
 package types
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type BasicData struct {
 	Name string
@@ -16,6 +19,22 @@ type Entyty struct {
 type SpecialEntyty struct {
 	Entyty
 	SpecialField bool
+}
+
+type TransformFunc func(s string) string
+
+func Uppercase(s string) string {
+	return strings.ToUpper(s)
+}
+
+func Prefixer(prefix string) TransformFunc {
+	return func(s string) string {
+		return prefix + s
+	}
+}
+
+func transformString(s string, fn TransformFunc) string {
+	return fn(s)
 }
 
 func BuildEntyty() {
@@ -38,5 +57,6 @@ func BuildEntyty() {
 		SpecialField: true,
 	}
 
-	fmt.Println(entyty, specialEntyty.Name)
+	fmt.Println(entyty, transformString(specialEntyty.Name, Uppercase))
+	fmt.Println(transformString(specialEntyty.Name, Prefixer("Mr. ")))
 }
