@@ -19,5 +19,5 @@ func main() {
 	// interfaces.RunInterfaces()
 	// types.BuildEntyty()
 	// pointers.RunPointers()
-	channels.RunChannels()
+	channels.RunControlledChannels()
 }
