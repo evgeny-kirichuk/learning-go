@@ -1,2 +1,2 @@
 run:
-		go run ./cmd/basics/main.go
+		@go run ./cmd/basics/main.go
