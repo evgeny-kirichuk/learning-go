@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning/basics/types"
+	"learning/basics/interfaces"
 )
 
 func main() {
@@ -16,6 +16,6 @@ func main() {
 	// api.StartSerevr()
 	// gowiki.StartSerevr()
 	// moreofgo.RunExamples()
-	// interfaces.RunInterfaces()
-	types.BuildEntyty()
+	interfaces.RunInterfaces()
+	// types.BuildEntyty()
 }

@@ -1,44 +1,47 @@
 package interfaces
 
-import "fmt"
-
-type NumberStorer interface {
-	GetAll() ([]int, error)
-	Put(int) error
+type Putter interface {
+	Put(id int, val any) error
 }
 
-type PotgresNumberStore struct {
-	// ...
+type Getter interface {
+	Get(id int) (any, error)
 }
 
-type MongoDBNumberStore struct {
-	// ...
+type Storage interface {
+	Putter
+	Getter
 }
 
-func (m MongoDBNumberStore) GetAll() ([]int, error) {
-	return []int{1, 2, 3}, nil
+
+type MyStorage struct {
+	Storage
 }
 
-func (m MongoDBNumberStore) Put(number int) error {
+func (m MyStorage) Get(id int) (any, error) {
+	return "value", nil
+}
+
+func (m MyStorage) Put(id int, val any) error {
 	return nil
 }
 
-func (p PotgresNumberStore) GetAll() ([]int, error) {
-	return []int{1, 2, 3}, nil
+type Server struct {
+	store Storage
 }
 
-func (p PotgresNumberStore) Put(number int) error {
-	return nil
+func UpdateValue(id int, val any, p Putter) error {
+	return p.Put(id, val)
 }
 
-type ApiServer struct {
-	numberStore NumberStorer
+func GetValue(id int, g Getter) (any, error) {
+	return g.Get(id)
 }
 
 func RunInterfaces() {
-	apiServer := ApiServer{
-		numberStore: MongoDBNumberStore{},
+	s := &Server{
+		store: &MyStorage{},
 	}
-	result, err := apiServer.numberStore.GetAll()
-	fmt.Println(result, err)
+	UpdateValue(1, "value", s.store)
+	GetValue(1, s.store)
 }
