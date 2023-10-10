@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning_go/basics/channels"
+	"learning_go/internal/basics/channels"
 )
 
 func main() {
