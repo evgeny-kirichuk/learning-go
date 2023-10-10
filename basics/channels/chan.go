@@ -7,20 +7,45 @@ import (
 
 // TODO: learn more about channels and buffered channels
 
-func RunChannels() {
+func RunAsyncChannels() {
 	// channels
 	println("Channels")
 
 	resultch := make(chan string)
 	go func() {
-		resultch <- fhetchData(1)
+		resultch <- fetchData(1)
 	}()
 
 	result := <-resultch
 	fmt.Println(result)
 }
 
-func fhetchData(n int) string {
+func RunChannels() {
+	msgch := make(chan string, 128)
+	msgch <- "Hello"
+	msgch <- "World"
+	msgch <- "!"
+	close(msgch)
+
+	// for with brake way
+	for {
+		msg, ok := <- msgch
+		if !ok {
+			break
+		}
+		fmt.Println(msg)
+	}
+
+	// range over channel way
+	for msg := range msgch {
+		fmt.Println("inside range")
+		fmt.Println(msg)
+	}
+
+	fmt.Println("Done")
+}
+
+func fetchData(n int) string {
 	time.Sleep(time.Second * 2)
 	return fmt.Sprintf("Data %v", n)
 }
