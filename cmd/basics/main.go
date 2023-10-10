@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning_go/internal/basics/channels"
+	"learning_go/internal/basics/mutexes"
 )
 
 func main() {
@@ -19,5 +19,6 @@ func main() {
 	// interfaces.RunInterfaces()
 	// types.BuildEntyty()
 	// pointers.RunPointers()
-	channels.RunControlledChannels()
+	// channels.RunControlledChannels()
+	mutexes.RunExamples()
 }
