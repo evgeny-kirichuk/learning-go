@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning_go/internal/basics/mutexes"
+	context_examples "learning_go/internal/basics/context"
 )
 
 func main() {
@@ -20,5 +20,6 @@ func main() {
 	// types.BuildEntyty()
 	// pointers.RunPointers()
 	// channels.RunControlledChannels()
-	mutexes.RunExamples()
+	// mutexes.RunExamples()
+	context_examples.RunExamples()
 }
