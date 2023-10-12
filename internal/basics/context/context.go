@@ -20,15 +20,15 @@ func RunExamples() {
 }
 
 func RunContext(ctx context.Context) (string, error) {
-	timeoutCtx, cancel := context.WithTimeout(ctx, time.Millisecond * 200)
+	timeoutCtx, cancel := context.WithTimeout(ctx, time.Millisecond*200)
 	defer cancel()
 
 	ctxValue := ctx.Value("testKey")
 	fmt.Printf("ctx value: %s\n", ctxValue)
 
-	type result struct	{
+	type result struct {
 		user string
-		err error
+		err  error
 	}
 
 	resultch := make(chan result, 1)

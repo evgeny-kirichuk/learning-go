@@ -5,7 +5,7 @@ import (
 )
 
 type State struct {
-	mu sync.Mutex
+	mu    sync.Mutex
 	count int32
 }
 

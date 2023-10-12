@@ -7,7 +7,7 @@ import (
 
 type Server struct {
 	quitch chan struct{}
-	msgch chan string
+	msgch  chan string
 }
 
 func (s *Server) Start() {
@@ -27,9 +27,9 @@ func (s *Server) Send(msg string) {
 func (s *Server) Loop() {
 	for {
 		select {
-		case msg := <- s.msgch:
+		case msg := <-s.msgch:
 			s.HandleMessage(msg)
-		case <- s.quitch:
+		case <-s.quitch:
 			return
 		}
 	}
@@ -42,20 +42,18 @@ func (s *Server) HandleMessage(msg string) {
 func newServer() *Server {
 	return &Server{
 		quitch: make(chan struct{}),
-		msgch: make(chan string, 128),
+		msgch:  make(chan string, 128),
 	}
 }
 
 func RunControlledChannels() {
 	server := newServer()
 
-	go func () {
+	go func() {
 		time.Sleep(time.Second * 5)
 		server.Send("Hello")
 		server.Stop()
 	}()
 
-
 	server.Start()
 }
-

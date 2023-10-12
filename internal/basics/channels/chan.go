@@ -29,7 +29,7 @@ func RunChannels() {
 
 	// for with brake way
 	for {
-		msg, ok := <- msgch
+		msg, ok := <-msgch
 		if !ok {
 			break
 		}
