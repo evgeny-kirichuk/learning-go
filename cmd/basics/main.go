@@ -1,7 +1,7 @@
 package main
 
 import (
-	context_examples "learning_go/internal/basics/context"
+	"learning_go/internal/basics/routines"
 )
 
 func main() {
@@ -21,5 +21,6 @@ func main() {
 	// pointers.RunPointers()
 	// channels.RunControlledChannels()
 	// mutexes.RunExamples()
-	context_examples.RunExamples()
+	// context_examples.RunExamples()
+	routines.RunExamples()
 }
