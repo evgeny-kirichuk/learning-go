@@ -19,7 +19,7 @@ https://gofiber.io
 ```
 Installing gofiber
 ```sh
-go get github.com/gofiber/fiber /v2
+go get github.com/gofiber/fiber/v2
 ```
 ## Docker
 ### Installing mongodb as a Docker container
