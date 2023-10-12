@@ -1,13 +1,21 @@
 package bookingApi
 
-import "github.com/gofiber/fiber"
+import (
+	"flag"
+	"learning_go/internal/bookingApi/handlers"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 func StartServer() {
-	app := fiber.New()
-	app.Get("/bookings", handleBookings)
-	app.Listen(":3000")
-}
+	addr := flag.String("addr", ":3000", "http service address")
+	flag.Parse()
 
-func handleBookings(c *fiber.Ctx) {
-	c.JSON(map[string]string{"booking": "booked"})
+	app := fiber.New()
+	apiv1 := app.Group("/api/v1")
+
+	apiv1.Get("/user", handlers.HandleGetUsers)
+	apiv1.Get("/user/:id", handlers.HandleGetUserById)
+
+	app.Listen(*addr)
 }
