@@ -3,9 +3,8 @@ package bookingApi
 import (
 	"context"
 	"flag"
-	"fmt"
+	"learning_go/bookingApi/db"
 	"learning_go/bookingApi/handlers"
-	"learning_go/bookingApi/types"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,34 +13,31 @@ import (
 )
 
 const dburi = "mongodb://localhost:27017"
-const dbname = "booking"
-const userCollection = "users"
+
+var config = fiber.Config{
+	ErrorHandler: func(c *fiber.Ctx, err error) error {
+		return c.JSON(map[string]string{"error": err.Error()})
+	},
+}
 
 func StartServer() {
+	addr := flag.String("addr", ":3000", "http service address")
+	flag.Parse()
+
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(dburi))
 	if err != nil {
 		log.Fatal(err)
 	}
-	userColl := client.Database(dbname).Collection(userCollection)
+	defer client.Disconnect(context.Background())
 
-	testUser := types.User{
-		FirstName: "Evgeny",
-		LastName:  "Kirichuk",
-		Age:       30,
-	}
-	res, err := userColl.InsertOne(context.Background(), testUser)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("res: %+v", res)
-	addr := flag.String("addr", ":3000", "http service address")
-	flag.Parse()
-
-	app := fiber.New()
+	app := fiber.New(config)
 	apiv1 := app.Group("/api/v1")
 
-	apiv1.Get("/user", handlers.HandleGetUsers)
-	apiv1.Get("/user/:id", handlers.HandleGetUserById)
+	// handlers initialization
+	userHandler := handlers.NewUserHandler(db.NewMongoUserStore(client))
+
+	apiv1.Get("/user", userHandler.HandleGetUsers)
+	apiv1.Get("/user/:id", userHandler.HandleGetUserById)
 
 	app.Listen(*addr)
 }
