@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"context"
 	"learning_go/bookingApi/db"
-	"learning_go/bookingApi/types"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -21,10 +19,9 @@ func NewUserHandler(userStore db.UserStore) *UserHandler {
 func (h *UserHandler) HandleGetUserById(c *fiber.Ctx) error {
 	var (
 		id = c.Params("id")
-		ctx = context.Background()
 	)
 
-	user,err := h.userStore.GetUserById(ctx, id)
+	user,err := h.userStore.GetUserById(c.Context(), id)
 	if err != nil {
 		return err
 	}
@@ -32,11 +29,14 @@ func (h *UserHandler) HandleGetUserById(c *fiber.Ctx) error {
 }
 
 func (h *UserHandler) HandleGetUsers(c *fiber.Ctx) error {
-	u := types.User{
-		FirstName: "Evgeny",
-		LastName:  "Kirichuk",
-		Age:       30,
+	users, error := h.userStore.GetUsers(c.Context())
+	if error != nil {
+		return error
 	}
-	return c.JSON(u)
+	return c.JSON(users)
+}
+
+func (h *UserHandler) HandleCreateUser(c *fiber.Ctx) error {
+	return nil
 }
 

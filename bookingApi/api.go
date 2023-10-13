@@ -36,7 +36,9 @@ func StartServer() {
 	// handlers initialization
 	userHandler := handlers.NewUserHandler(db.NewMongoUserStore(client))
 
+	// routes
 	apiv1.Get("/user", userHandler.HandleGetUsers)
+	apiv1.Post("/user", userHandler.HandleCreateUser)
 	apiv1.Get("/user/:id", userHandler.HandleGetUserById)
 
 	app.Listen(*addr)

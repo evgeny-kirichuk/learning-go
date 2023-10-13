@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"learning_go/bookingApi/types"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,6 +14,8 @@ const userCollection = "users"
 
 type UserStore interface {
 	GetUserById(context.Context, string) (*types.User, error)
+	GetUsers(context.Context) ([]*types.User, error)
+	CreateUser(context.Context, *types.User) (types.User, error)
 }
 
 type MongoUserStore struct {
@@ -37,4 +40,26 @@ func (s *MongoUserStore) GetUserById(ctx context.Context, id string) (*types.Use
 		return nil, err
 	}
 	return &user, nil
+}
+
+func (s *MongoUserStore) GetUsers(ctx context.Context) ([]*types.User, error) {
+	var users []*types.User
+	curr, err := s.coll.Find(ctx, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+	fmt.Printf("users %+v", curr)
+	if err := curr.Decode(&users); err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
+func (s *MongoUserStore) CreateUser(ctx context.Context, user *types.User) (types.User, error) {
+	_, err := s.coll.InsertOne(ctx, user)
+	if err != nil {
+		return types.User{}, err
+	}
+	return *user, nil
 }
