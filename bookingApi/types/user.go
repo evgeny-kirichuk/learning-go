@@ -1,6 +1,9 @@
 package types
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
+)
 
 const bcryptCost = 12
 
@@ -13,12 +16,12 @@ type CreateUserParams struct {
 }
 
 type User struct {
-	ID                string `bson:"id,omitempty" json:"id,omitempty"` // bson - binary json. use ,omitempty to ignore empty fields
-	FirstName         string `bson:"firstName" json:"firstName"`
-	LastName          string `bson:"lastName" json:"lastName"`
-	Age               int    `bson:"age" json:"age"`
-	Email             string `bson:"email" json:"email"`
-	EncriptedPassword string `bson:"encriptedPassword" json:"-"`
+	ID                primitive.ObjectID `bson:"id,omitempty" json:"id,omitempty"` // bson - binary json. use ,omitempty to ignore empty fields
+	FirstName         string             `bson:"firstName" json:"firstName"`
+	LastName          string             `bson:"lastName" json:"lastName"`
+	Age               int                `bson:"age" json:"age"`
+	Email             string             `bson:"email" json:"email"`
+	EncriptedPassword string             `bson:"encriptedPassword" json:"-"`
 }
 
 func NewUserFromParams(params CreateUserParams) (*User, error) {
