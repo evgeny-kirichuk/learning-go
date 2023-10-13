@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"learning_go/bookingApi/db"
+	"learning_go/bookingApi/types"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -37,6 +38,18 @@ func (h *UserHandler) HandleGetUsers(c *fiber.Ctx) error {
 }
 
 func (h *UserHandler) HandleCreateUser(c *fiber.Ctx) error {
-	return nil
+	var params types.CreateUserParams
+	if err := c.BodyParser(&params); err != nil {
+		return err
+	}
+	user, err := types.NewUserFromParams(params)
+	if err != nil {
+		return err
+	}
+	newUser, err := h.userStore.CreateUser(c.Context(), user)
+	if err != nil {
+		return err
+	}
+	return c.JSON(newUser)
 }
 
