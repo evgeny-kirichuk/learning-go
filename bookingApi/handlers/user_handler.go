@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"learning_go/internal/bookingApi/types"
+	"learning_go/bookingApi/types"
 
 	"github.com/gofiber/fiber/v2"
 )

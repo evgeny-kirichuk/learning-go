@@ -1,7 +1,7 @@
 package main
 
 import (
-	"learning_go/internal/bookingApi"
+	"learning_go/bookingApi"
 )
 
 func main() {

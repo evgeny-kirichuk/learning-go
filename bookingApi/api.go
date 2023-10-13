@@ -2,7 +2,7 @@ package bookingApi
 
 import (
 	"flag"
-	"learning_go/internal/bookingApi/handlers"
+	"learning_go/bookingApi/handlers"
 
 	"github.com/gofiber/fiber/v2"
 )
