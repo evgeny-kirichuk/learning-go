@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"learning_go/bookingApi/types"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -20,13 +19,13 @@ type UserStore interface {
 
 type MongoUserStore struct {
 	client *mongo.Client
-	coll *mongo.Collection
+	coll   *mongo.Collection
 }
 
 func NewMongoUserStore(client *mongo.Client) *MongoUserStore {
 	return &MongoUserStore{
 		client: client,
-		coll: client.Database(DBName).Collection(userCollection),
+		coll:   client.Database(DBName).Collection(userCollection),
 	}
 }
 
@@ -48,7 +47,7 @@ func (s *MongoUserStore) GetUsers(ctx context.Context) ([]*types.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("users %+v", curr)
+
 	if err := curr.All(ctx, &users); err != nil {
 		return nil, err
 	}
