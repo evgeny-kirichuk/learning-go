@@ -40,6 +40,7 @@ func StartServer() {
 	apiv1.Get("/user", userHandler.HandleGetUsers)
 	apiv1.Post("/user", userHandler.HandleCreateUser)
 	apiv1.Delete("/user/:id", userHandler.HandleDeleteUser)
+	apiv1.Put("/user/:id", userHandler.HandleUpdateUser)
 	apiv1.Get("/user/:id", userHandler.HandleGetUserById)
 
 	app.Listen(*addr)
