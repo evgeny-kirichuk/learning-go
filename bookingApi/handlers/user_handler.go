@@ -24,7 +24,7 @@ func (h *UserHandler) HandleGetUserById(c *fiber.Ctx) error {
 
 	user, err := h.userStore.GetUserById(c.Context(), id)
 	if err != nil {
-		return err
+		return c.SendStatus(fiber.StatusNotFound)
 	}
 	return c.JSON(user)
 }
@@ -35,6 +35,21 @@ func (h *UserHandler) HandleGetUsers(c *fiber.Ctx) error {
 		return error
 	}
 	return c.JSON(users)
+}
+
+func (h *UserHandler) HandleDeleteUser(c *fiber.Ctx) error {
+	var (
+		id = c.Params("id")
+	)
+	err := h.userStore.DeleteUser(c.Context(), id)
+	if err != nil {
+		return err
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+func (h *UserHandler) HandleUpdateUser(c *fiber.Ctx) error {
+
 }
 
 func (h *UserHandler) HandleCreateUser(c *fiber.Ctx) error {
