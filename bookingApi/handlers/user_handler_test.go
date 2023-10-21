@@ -11,6 +11,7 @@ import (
 )
 
 const testdburi = "mongodb://localhost:27017"
+const dbname = "booking_test"
 
 type testdb struct {
 	db.UserStore
@@ -28,7 +29,7 @@ func setup(t *testing.T) *testdb {
 		log.Fatal(err)
 	}
 	return &testdb{
-		UserStore: db.NewMongoUserStore(client),
+		UserStore: db.NewMongoUserStore(client, dbname),
 	}
 }
 
