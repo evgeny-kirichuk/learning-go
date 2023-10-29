@@ -12,8 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const dburi = "mongodb://localhost:27017"
-const dbname = "booking"
+
 
 var config = fiber.Config{
 	ErrorHandler: func(c *fiber.Ctx, err error) error {
@@ -25,7 +24,7 @@ func StartServer() {
 	addr := flag.String("addr", ":3000", "http service address")
 	flag.Parse()
 
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(dburi))
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(db.DBuri))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +34,7 @@ func StartServer() {
 	apiv1 := app.Group("/api/v1")
 
 	// handlers initialization
-	userHandler := handlers.NewUserHandler(db.NewMongoUserStore(client, dbname))
+	userHandler := handlers.NewUserHandler(db.NewMongoUserStore(client, db.DBname))
 
 	// routes
 	apiv1.Get("/user", userHandler.HandleGetUsers)

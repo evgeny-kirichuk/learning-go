@@ -1,17 +1,42 @@
 package main
 
-import "learning_go/bookingApi/types"
+import (
+	"context"
+	"fmt"
+	"learning_go/bookingApi/db"
+	"learning_go/bookingApi/types"
+	"log"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
 
 func main() {
-	horel := types.Hotel{
+	ctx := context.Background()
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(db.DBuri))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Disconnect(context.Background())
+
+
+	hotelStore := db.NewMongoHotelStore(client, "booking")
+
+	hotel := types.Hotel{
 		Name:    "Hilton",
 		Address: "1234 Main St",
 	}
 
-	room := types.Room{
-		Type:      types.Single,
-		BasePrice: 100,
-		Price:     100,
+	// room := types.Room{
+	// 	Type:      types.Single,
+	// 	BasePrice: 100,
+	// 	Price:     100,
+	// }
+
+	indertedHotel, err := hotelStore.InsertHotel(ctx, &hotel)
+	if err != nil {
+		log.Fatal(err)
 	}
-	println("Seeding...")
+
+	fmt.Println(indertedHotel)
 }
