@@ -20,23 +20,32 @@ func main() {
 	defer client.Disconnect(context.Background())
 
 
-	hotelStore := db.NewMongoHotelStore(client, "booking")
+	hotelStore := db.NewMongoHotelStore(client, db.DBname)
+	roomStore := db.NewMongoRoomStore(client, db.DBname)
 
 	hotel := types.Hotel{
 		Name:    "Hilton",
 		Address: "1234 Main St",
 	}
 
-	// room := types.Room{
-	// 	Type:      types.Single,
-	// 	BasePrice: 100,
-	// 	Price:     100,
-	// }
+	room := types.Room{
+		Type:      types.Single,
+		BasePrice: 100,
+		Price:     100,
+	}
 
 	indertedHotel, err := hotelStore.InsertHotel(ctx, &hotel)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(indertedHotel)
+	room.HotelID = indertedHotel.ID
+
+	insertedRoom, err := roomStore.InsertRoom(ctx, &room)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+
+	fmt.Println(indertedHotel, insertedRoom)
 }
