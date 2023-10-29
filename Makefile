@@ -12,3 +12,6 @@ serveProdBooking: buildBooking
 
 testBooking:
 		@go test -v ./bookingApi/...
+
+seed:
+		@go run ./scripts/seed.go
