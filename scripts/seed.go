@@ -7,6 +7,7 @@ import (
 	"learning_go/bookingApi/types"
 	"log"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -21,11 +22,12 @@ func main() {
 
 
 	hotelStore := db.NewMongoHotelStore(client, db.DBname)
-	roomStore := db.NewMongoRoomStore(client, db.DBname)
+	roomStore := db.NewMongoRoomStore(client, db.DBname, hotelStore)
 
 	hotel := types.Hotel{
 		Name:    "Hilton",
 		Address: "1234 Main St",
+		Rooms: []primitive.ObjectID{},
 	}
 
 	room := types.Room{
