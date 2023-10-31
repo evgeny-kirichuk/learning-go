@@ -20,6 +20,9 @@ func main() {
 	}
 	defer client.Disconnect(context.Background())
 
+	if err := client.Database(db.DBname).Drop(ctx); err != nil {
+		log.Fatal(err)
+	}
 
 	hotelStore := db.NewMongoHotelStore(client, db.DBname)
 	roomStore := db.NewMongoRoomStore(client, db.DBname, hotelStore)
