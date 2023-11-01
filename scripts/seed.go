@@ -12,17 +12,17 @@ import (
 )
 
 var (
-	client *mongo.Client
-	roomStore db.RoomStore
+	client     *mongo.Client
+	roomStore  db.RoomStore
 	hotelStore db.HotelStore
-	ctx = context.Background()
+	ctx        = context.Background()
 )
 
 func seedHotel(name, address string) {
 	hotel := types.Hotel{
 		Name:    name,
 		Address: address,
-		Rooms: []primitive.ObjectID{},
+		Rooms:   []primitive.ObjectID{},
 	}
 
 	rooms := []types.Room{
@@ -43,23 +43,24 @@ func seedHotel(name, address string) {
 		},
 	}
 
-		insertedHotel, err := hotelStore.InsertHotel(ctx, &hotel)
+	insertedHotel, err := hotelStore.Insert(ctx, &hotel)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, room := range rooms {
+		room.HotelID = insertedHotel.ID
+		_, err := roomStore.InsertRoom(ctx, &room)
 		if err != nil {
 			log.Fatal(err)
 		}
-		for _, room := range rooms {
-			room.HotelID = insertedHotel.ID
-			insertedRoom, err := roomStore.InsertRoom(ctx, &room)
-			if err != nil {
-				log.Fatal(err)
-			}
-			insertedHotel.Rooms = append(insertedHotel.Rooms, insertedRoom.ID)
-		}
+	}
 }
 
 func main() {
 	defer client.Disconnect(context.Background())
 	seedHotel("Hilton", "1234 Main Street")
+	seedHotel("Marriot", "5678 Main Street")
+	seedHotel("Sheraton", "9012 Main Street")
 }
 
 func init() {

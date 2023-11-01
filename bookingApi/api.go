@@ -33,8 +33,14 @@ func StartServer() {
 	app := fiber.New(config)
 	apiv1 := app.Group("/api/v1")
 
+	//stores
+	userStore := db.NewMongoUserStore(client, db.DBname)
+	hotelStore := db.NewMongoHotelStore(client, db.DBname)
+	roomStore := db.NewMongoRoomStore(client, db.DBname, hotelStore)
+
 	// handlers initialization
-	userHandler := handlers.NewUserHandler(db.NewMongoUserStore(client, db.DBname))
+	userHandler := handlers.NewUserHandler(userStore)
+	hotelHandler := handlers.NewHotelHandler(roomStore,hotelStore)
 
 	// routes
 	apiv1.Get("/user", userHandler.HandleGetUsers)
@@ -42,6 +48,8 @@ func StartServer() {
 	apiv1.Delete("/user/:id", userHandler.HandleDeleteUser)
 	apiv1.Put("/user/:id", userHandler.HandleUpdateUser)
 	apiv1.Get("/user/:id", userHandler.HandleGetUserById)
+
+	apiv1.Get("/hotel", hotelHandler.HandleGetHotels)
 
 	app.Listen(*addr)
 }
