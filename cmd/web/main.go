@@ -13,13 +13,13 @@ import (
 )
 
 type config struct {
-	addr      string
-	dsn       string
+	addr string
+	dsn  string
 }
 
 type application struct {
-	logger   *slog.Logger
-	snippets *models.SnippetModel
+	logger        *slog.Logger
+	snippets      *models.SnippetModel
 	templateCache map[string]*template.Template
 }
 
@@ -45,8 +45,8 @@ func main() {
 	}
 
 	app := &application{
-		logger:   logger,
-		snippets: &models.SnippetModel{DB: db},
+		logger:        logger,
+		snippets:      &models.SnippetModel{DB: db},
 		templateCache: templateCache,
 	}
 
