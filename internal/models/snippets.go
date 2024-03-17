@@ -38,20 +38,19 @@ func (m *SnippetModel) Get(id int) (Snippet, error) {
 	stmt := `SELECT id, title, content, created, expires FROM snippets
     WHERE expires > UTC_TIMESTAMP() AND id = ?`
 
-		row := m.DB.QueryRow(stmt, id)
+	row := m.DB.QueryRow(stmt, id)
 
+	var s Snippet
+	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return Snippet{}, ErrNoRecord
+		} else {
+			return Snippet{}, err
+		}
+	}
 
-    var s Snippet
-		err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
-    if err != nil {
-        if errors.Is(err, sql.ErrNoRows) {
-            return Snippet{}, ErrNoRecord
-        } else {
-            return Snippet{}, err
-        }
-    }
-
-    return s, nil
+	return s, nil
 }
 
 func (m *SnippetModel) Latest() ([]Snippet, error) {
@@ -64,7 +63,7 @@ func (m *SnippetModel) Latest() ([]Snippet, error) {
 	// our query.
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
-			return nil, err
+		return nil, err
 	}
 
 	// We defer rows.Close() to ensure the sql.Rows resultset is
@@ -83,19 +82,19 @@ func (m *SnippetModel) Latest() ([]Snippet, error) {
 	// resultset automatically closes itself and frees-up the underlying
 	// database connection.
 	for rows.Next() {
-			// Create a pointer to a new zeroed Snippet struct.
-			var s Snippet
-			// Use rows.Scan() to copy the values from each field in the row to the
-			// new Snippet object that we created. Again, the arguments to row.Scan()
-			// must be pointers to the place you want to copy the data into, and the
-			// number of arguments must be exactly the same as the number of
-			// columns returned by your statement.
-			err = rows.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
-			if err != nil {
-					return nil, err
-			}
-			// Append it to the slice of snippets.
-			snippets = append(snippets, s)
+		// Create a pointer to a new zeroed Snippet struct.
+		var s Snippet
+		// Use rows.Scan() to copy the values from each field in the row to the
+		// new Snippet object that we created. Again, the arguments to row.Scan()
+		// must be pointers to the place you want to copy the data into, and the
+		// number of arguments must be exactly the same as the number of
+		// columns returned by your statement.
+		err = rows.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+		if err != nil {
+			return nil, err
+		}
+		// Append it to the slice of snippets.
+		snippets = append(snippets, s)
 	}
 
 	// When the rows.Next() loop has finished we call rows.Err() to retrieve any
@@ -103,7 +102,7 @@ func (m *SnippetModel) Latest() ([]Snippet, error) {
 	// call this - don't assume that a successful iteration was completed
 	// over the whole resultset.
 	if err = rows.Err(); err != nil {
-			return nil, err
+		return nil, err
 	}
 
 	// If everything went OK then return the Snippets slice.
