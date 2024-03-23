@@ -60,6 +60,9 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) snippetCreate(w http.ResponseWriter, r *http.Request) {
 	data := app.newTemplateData(r)
+	data.Form = snippetCreateForm{
+		Expires: 365,
+	}
 
 	app.render(w, r, http.StatusOK, "create.tmpl", data)
 }
@@ -85,7 +88,7 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 		Content:     r.PostForm.Get("content"),
 		Expires:     expires,
 		FieldErrors: map[string]string{},
-}
+	}
 
 	if strings.TrimSpace(title) == "" {
 		form.FieldErrors["title"] = "This field cannot be empty"
@@ -106,8 +109,7 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 		data.Form = form
 		app.render(w, r, http.StatusUnprocessableEntity, "create.tmpl", data)
 		return
-}
-
+	}
 
 	id, err := app.snippets.Insert(form.Title, form.Content, form.Expires)
 	if err != nil {
